@@ -59,4 +59,16 @@ public class FinalizarLeilaoServiceTest {
     assertEquals("Beltrano", leilao.getLanceVencedor().getUsuario().getNome());
     verify(leilaoDaoMock).salvar(leilao);
   }
+
+
+  @Test
+  public void ensureEmailWillSendedToAuctionWinner() {
+    ArrayList<Leilao> leiloes = pegaLeiloesExpirados();
+    when(leilaoDaoMock.buscarLeiloesExpirados()).thenReturn(leiloes);
+
+    sut.finalizarLeiloesExpirados();
+    
+    Leilao leilao = leiloes.get(0);
+    verify(enviadorDeEmailsMock).enviarEmailVencedorLeilao(leilao.getLanceVencedor());
+  }
 }
