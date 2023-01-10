@@ -70,4 +70,17 @@ public class GeradorDePagamentoTest {
     assertEquals(lanceVencedor.getUsuario(), pagamento.getUsuario());
     assertEquals(leilao, pagamento.getLeilao());
   }
+
+  @Test
+  public void shouldSkip2DaysWhenIsSaturday() {
+    Leilao leilao = pegaLeilao();
+    Lance lanceVencedor = leilao.getLances().get(0);
+    LocalDate date = mockAndGetDate(2020, 12, 5);
+
+    sut.gerarPagamento(lanceVencedor);
+
+    verify(pagamentoDaoMock).salvar(captor.capture());
+    Pagamento pagamento = captor.getValue();
+    assertEquals(date.plusDays(2), pagamento.getVencimento());
+  }
 }
