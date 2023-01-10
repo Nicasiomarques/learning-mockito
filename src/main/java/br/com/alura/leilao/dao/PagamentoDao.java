@@ -9,7 +9,6 @@ import br.com.alura.leilao.model.Pagamento;
 
 @Repository
 public class PagamentoDao {
-
 	private EntityManager em;
 
 	@Autowired
@@ -20,5 +19,4 @@ public class PagamentoDao {
 	public void salvar(Pagamento pagamento) {
 		em.persist(pagamento);
 	}
-
 }
