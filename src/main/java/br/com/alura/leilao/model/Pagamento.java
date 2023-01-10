@@ -32,7 +32,6 @@ public class Pagamento {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Leilao leilao;
-
 	private Boolean pago;
 
 	public Pagamento(Lance lanceVencedor, LocalDate vencimento) {
@@ -66,5 +65,4 @@ public class Pagamento {
 	public Boolean getPago() {
 		return pago;
 	}
-
 }
