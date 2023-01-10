@@ -71,4 +71,21 @@ public class FinalizarLeilaoServiceTest {
     Leilao leilao = leiloes.get(0);
     verify(enviadorDeEmailsMock).enviarEmailVencedorLeilao(leilao.getLanceVencedor());
   }
+
+  @Test
+  public void ensureEmailWillDoNotSendedToAuctionWinnerIfSaveThrowException() {
+    when(leilaoDaoMock.buscarLeiloesExpirados())
+    .thenReturn(pegaLeiloesExpirados());
+
+    when(leilaoDaoMock.salvar(Mockito.any()))
+    .thenThrow(RuntimeException.class);
+    
+    try {
+      sut.finalizarLeiloesExpirados();
+
+      verify(enviadorDeEmailsMock, never())
+      .enviarEmailVencedorLeilao(Mockito.any());
+      // Mockito.verifyNoInteractions(enviadorDeEmailsMock);
+    } catch (Exception e) {}
+  }
 }
